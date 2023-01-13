@@ -3,19 +3,20 @@ class ProductManager {
         this.products = []
     }
 
-    addProduct = (title, description, price, thumbnail, code, stock) => {
+    addProduct = (title, description, price, thumbnail, code, stock, id) => {
         const product = {
             title,
             description,
             price,
             thumbnail,
             code,
-            stock
+            stock,
+            id
         }
         if (this.products.length === 0) {
-            product.code = 1
+            product.id = 1
         } else {
-            product.code = this.products[this.products.length - 1].id + 1
+            product.id = this.products[this.products.length - 1].id + 1
         }
 
         this.products.push(product)
@@ -24,9 +25,10 @@ class ProductManager {
 
     getProducts = () => this.products
 
-    getProductById = (idSearch) => {
-        if (this.products.includes(idSearch)) {
-            console.log('ID found')
+    getProductById = (id) => {
+        let searchedId = (this.products.find(p => p.id === id))
+        if (searchedId) {
+            return searchedId
         } else {
             console.log('ID not found')
         }
@@ -34,4 +36,6 @@ class ProductManager {
 }
 
 const p1 = new ProductManager()
-p1.addProduct('Yamaha R6', 'Motorbike', 3000000, 'https://www.mundomotero.com/wp-content/uploads/2021/05/Yamaha-R6-RACE-2022-8-1200x675-1-1024x576.jpg', 1, 5)
+p1.addProduct('Yamaha R6', 'Motorbike', 20000, 'https://www.mundomotero.com/wp-content/uploads/2021/05/Yamaha-R6-RACE-2022-8-1200x675-1-1024x576.jpg', 1, 5, 1)
+
+console.log(p1.getProductById(1))
