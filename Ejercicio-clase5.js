@@ -18,7 +18,7 @@ class ProductManager {
     
 
     addProduct = (title, description, price, thumbnail, code, stock, id) => {
-        let products = getProducts()
+        let products = this.getProducts()
         const product = {
             title,
             description,
@@ -39,7 +39,7 @@ class ProductManager {
         let found = products.some(p => p.code === code)
         if (!found) {
             products.push(product)
-            fs.appendFileSync(this.path, JSON.stringify(products), 'utf-8')
+            fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
             //console.log(this.products)
         } else {
             console.log('El codigo ya existe, intente con otro')
@@ -48,7 +48,7 @@ class ProductManager {
     }
 
     getProductById = (id) => {
-        let products = getProducts()
+        let products = this.getProducts()
         let searchedId = (products.find(p => p.id === id))
         if (searchedId) {
             return searchedId
@@ -58,7 +58,7 @@ class ProductManager {
     }
 
     updateProduct = (id, key, value) => {
-        let products = getProducts()
+        let products = this.getProducts()
         let objIndex = products.findIndex(obj => obj.id === id)
         switch (key) {
             case 'title':
@@ -97,7 +97,7 @@ class ProductManager {
     }
 
     deleteProduct = (id) => {
-        let products = getProducts()
+        let products = this.getProducts()
         let deleteObj = products.findIndex(obj => obj.id === id)
         if (deleteObj > -1) {
             products.splice(deleteObj, 1)
