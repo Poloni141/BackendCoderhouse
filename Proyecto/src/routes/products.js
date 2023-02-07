@@ -32,46 +32,39 @@ router.get('/:pid', (request, response) =>{
 })
 
 router.post('/', (request, response) => {
-    const { title, description, price, thumbnail, code, stock } = request.body;
-    const requiredFields = ['title', 'description', 'price', 'thumbnail', 'code', 'stock'];
+    const { title, description, price, code, stock } = request.body;
+    const requiredFields = ['title', 'description', 'price', 'code', 'stock'];
     const missingFields = requiredFields.filter(field => !request.body[field]);
 
     if (missingFields.length) {
-        return res.status(400).send(`Faltan parametros: ${missingFields.join(', ')}`);
+        return response.status(400).send(`Faltan parametros: ${missingFields.join(', ')}`);
     }
 
-    productManager.addProduct(title, description, price, thumbnail, code, stock);
+    motos.addProduct(title, description, price, thumbnail, code, stock);
     response.status(201).send('Producto añadido exitosamente');
 })
 
-router.put('/:pid', (request, response) => {
-    let products = motos.getProducts()
-
+router.put('/:pid', async (request, response) => {
     let pid = request.params['pid']
-    const product = products.find(prod => prod.id === pid)
-
-    if (!product) {
-        return response.send('ID not found')
-    } else {
-        product.status = false
-        response.send(product)
+    let key = request.body;
+    try {
+        motos.updateProduct(pid, key);
+        response.status(201).send('Producto actualizado')
+    } catch (err) {
+        response.status(500).send('Falla al actualizar producto')
+        console.log(err)
     }
-
 })
 
-router.delete('/:pid', (request, response) => {
-    let products = motos.getProducts()
-
+router.delete('/:pid', async (request, response) => {
     let pid = request.params['pid']
-    const product = products.find(prod => prod.id === pid)
-
-    if (!product) {
-        return response.send('ID not found')
-    } else {
-        product.status = false
-        response.send(product)
+    try {
+        motos.deleteProduct(pid)
+        response.status(200).send('Producto eliminado')
+    } catch(err) {
+        response.status(500).send('No se logro eliminar el producto')
+        console.log(err)
     }
-
 })
 
 

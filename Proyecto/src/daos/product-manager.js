@@ -58,50 +58,43 @@ class ProductManager {
         }
     }
 
-    updateProduct = (id, key, value) => {
+    updateProduct = (id, key) => {
         let products = this.getProducts()
         let objIndex = products.findIndex(obj => obj.id === id)
-        switch (key) {
-            case 'title':
-                products[objIndex].title = value
-                console.log(products)
-                fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
-                break;
-
-            case 'description':
-                products[objIndex].description = value
-                console.log(products)
-                fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
-                break;
-
-            case 'price':
-                products[objIndex].price = value
-                console.log(products)
-                fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
-                break;
-
-            case 'thumbnail':
-                products[objIndex].thumbnail = value
-                console.log(products)
-                fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
-                break;
-
-            case 'stock':
-                products[objIndex].stock = value
-                console.log(products)
-                fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
-                break;
-                
-            default:
-                console.log('Error, verificar KEY que sea string')
+        if (objIndex === -1) {
+            console.log("Producto no encontrado");
+            return;
         }
+        if (key.title) {
+            products[objIndex].title = key.title;
+        }
+        if (key.description) {
+            products[objIndex].description = key.description;
+        }
+        if (key.price) {
+            products[objIndex].price = key.price;
+        }
+        if (key.thumbnail) {
+            products[objIndex].thumbnail = key.thumbnail;
+        }
+        if (key.stock) {
+            products[objIndex].stock = key.stock;
+        }
+        if (key.status) {
+            products[objIndex].status = key.stock;
+        }
+
+        fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
     }
 
     deleteProduct = (id) => {
         let products = this.getProducts()
-        let deleteObj = products.findIndex(obj => obj.id === id)
-        if (deleteObj > -1) {
-            products.splice(deleteObj, 1)
+        let objIndex = products.findIndex(obj => obj.id === id)
+        if (objIndex > -1) {
+            products[objIndex].status = false
+            products[objIndex].stock = 0;
+        } else {
+            console.log(id + ' No encontrado')
         }
 
         return products = fs.writeFileSync(this.path, JSON.stringify(products), 'utf-8')
