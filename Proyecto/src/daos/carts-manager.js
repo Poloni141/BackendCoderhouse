@@ -64,10 +64,8 @@ class CartsManager {
             const productIndex = cartFound.products.findIndex(prod => prod.id === pid)
             if (productIndex === -1) {
                 cartFound.products.push({ id: pid, quantity: 1 })
-                carts.push(cartFound)
             } else {
                 cartFound.products[productIndex].quantity += 1
-                carts.push(cartFound)
             }
             //cartFound[products].push(pid)
             //cartFound[products].push(quantity)
