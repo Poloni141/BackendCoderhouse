@@ -33,13 +33,12 @@ router.get('/:cid', (request, response) =>{
 })
 
 router.post('/:cid/product/:pid', async (request, response) => {
-    let carts = cart.getCarts()
-
     let cid = request.params['cid']
     let pid = request.params['pid']
 
     try {
         cart.addInCart(cid, pid)
+        let carts = cart.getCarts()
         response.status(200).send(carts)
     } catch (err) {
         response.status(500).send('Ocurrio el error: '+ err)
