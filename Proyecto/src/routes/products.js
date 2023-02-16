@@ -40,7 +40,7 @@ router.post('/', (request, response) => {
         return response.status(400).send(`Faltan parametros: ${missingFields.join(', ')}`);
     }
 
-    motos.addProduct(title, description, price, thumbnail, code, stock);
+    motos.addProduct(title, description, price, code, stock);
     response.status(201).send('Producto añadido exitosamente');
 })
 

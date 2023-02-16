@@ -1,0 +1,41 @@
+<div>
+    <div>
+        <h2>Productos:</h2>
+        {{#each products}}
+            {{#if status}}
+                <h4>{{this.title}}</h4>
+                <p>ID: {{this.id}}</p>
+                <p>Precio: ${{this.price}}</p>
+            {{/if}}
+        {{/each}}
+    </div>
+</div>
+
+<div>
+    <h2>Agregar producto</h2>
+    <form action="/api/products" method="post">
+        <label>Titulo</label>
+        <input type="text" name="title" required>
+        <label>Descripcion</label>
+        <input name="description" required>
+        <label>Precio</label>
+        <input name="price" required>
+        <label>Codigo</label>
+        <input name="code" required>
+        <label>Stock</label>
+        <input name="stock" required>
+        <input value="Agregar" type="submit">
+        <input value="Limpiar campos" type="reset">
+    </form>
+</div>
+
+<div>
+    <form action="/api/products/" method="post">
+    <label for="id">ID del producto:</label>
+    <input type="text" name="id" id="id">
+    <button type="submit">Borrar producto</button>
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/scripts/index.js"></script>

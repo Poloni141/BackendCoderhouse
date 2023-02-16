@@ -6,10 +6,10 @@ motos.getProducts()
 
 const router = Router()
 
-router.get('/home', async (request, response) => {
+router.get('/realtime', async (request, response) => {
     let products = await motos.getProducts()
     
-    response.render('home', {
+    response.render('realTimeProducts', {
         products
     })
 })

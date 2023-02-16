@@ -4,8 +4,11 @@ import  handlebars  from 'express-handlebars'
 import productRouter from './routes/products.js'
 import cartRouter from './routes/cart.js'
 import homeRouter from './routes/home.js'
+import realTimeRouter from './routes/realTimeProducts.js'
 
 import __dirname from './utils.js'
+
+import { Server } from 'socket.io'
 
 
 
@@ -17,18 +20,28 @@ server.use(express.urlencoded({extended:true}))
 
 server.engine('handlebars', handlebars.engine())
 server.set('views', __dirname+'/views')
-server.set('views engine', 'handlebars')
+server.set('view engine', 'handlebars')
 
 server.use('/', homeRouter)
+
+server.use('/', realTimeRouter)
 
 server.use('/api/products', productRouter)
 
 server.use('/api/carts', cartRouter)
 
 
-server.listen(PORT, err =>{
+const httpServer = server.listen(PORT, err =>{
     if (err)  console.log(err)
     console.log(`Corriendo en http://localhost:${PORT}`)
 })
 
+const socketServer = new Server(httpServer)
+
+socketServer.on('connection', socket => {
+    console.log('Cliente conectado')
+
+    // socket.on() work in progress
+
+})
 
