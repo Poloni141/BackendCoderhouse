@@ -9,7 +9,10 @@ const router = Router()
 
 router.get('/home', async (request, response) => {
     let products = await motos.getProducts()
-    return response.status(200).send(products)
+    
+    response.render('home', {
+        products
+    })
 })
 
 export default router

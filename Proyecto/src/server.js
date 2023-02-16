@@ -3,6 +3,9 @@ import  handlebars  from 'express-handlebars'
 
 import productRouter from './routes/products.js'
 import cartRouter from './routes/cart.js'
+import homeRouter from './routes/home.js'
+
+import __dirname from './utils.js'
 
 
 
@@ -15,6 +18,8 @@ server.use(express.urlencoded({extended:true}))
 server.engine('handlebars', handlebars.engine())
 server.set('views', __dirname+'/views')
 server.set('views engine', 'handlebars')
+
+server.use('/', homeRouter)
 
 server.use('/api/products', productRouter)
 
