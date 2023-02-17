@@ -18,7 +18,7 @@ class ProductManager {
     }
     
 
-    addProduct = (title, description, code, price, thumbnail, stock,) => {
+    addProduct = (title, description, price, thumbnail, code, stock,) => {
         let products = this.getProducts()
         const product = {
             title,

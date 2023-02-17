@@ -32,15 +32,15 @@ router.get('/:pid', (request, response) =>{
 })
 
 router.post('/', (request, response) => {
-    const { title, description, price, code, stock } = request.body;
-    const requiredFields = ['title', 'description', 'price', 'code', 'stock'];
+    const { title, description, price, thumbnail, code, stock } = request.body;
+    const requiredFields = ['title', 'description', 'price', thumbnail, 'code', 'stock'];
     const missingFields = requiredFields.filter(field => !request.body[field]);
 
     if (missingFields.length) {
         return response.status(400).send(`Faltan parametros: ${missingFields.join(', ')}`);
     }
 
-    motos.addProduct(title, description, price, code, stock);
+    motos.addProduct(title, description, price, thumbnail, code, stock);
     response.status(201).send('Producto añadido exitosamente');
 })
 

@@ -8,6 +8,8 @@ import realTimeRouter from './routes/realTimeProducts.js'
 
 import __dirname from './utils.js'
 
+import ProductManager from './daos/product-manager.js'
+
 import { Server } from 'socket.io'
 
 
@@ -17,6 +19,8 @@ const PORT = 8080
 const server = express()
 server.use(express.json())
 server.use(express.urlencoded({extended:true}))
+
+server.use(express.static(`${__dirname}/public`))
 
 server.engine('handlebars', handlebars.engine())
 server.set('views', __dirname+'/views')
@@ -38,10 +42,18 @@ const httpServer = server.listen(PORT, err =>{
 
 const socketServer = new Server(httpServer)
 
+const productManager = new ProductManager(__dirname + '/mockDB/productos.json')
+let history = productManager.getProducts()
+
 socketServer.on('connection', socket => {
     console.log('Cliente conectado')
 
-    // socket.on() work in progress
+    socket.emit('arrayProd', history)
 
+    socket.on('newProduct', (data) => {
+        productManager.addProduct(data)
+        history = productManager.getProducts()
+        socket.emit('products', history)
+    })
 })
 
