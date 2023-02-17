@@ -51,9 +51,17 @@ socketServer.on('connection', socket => {
     socket.emit('arrayProd', history)
 
     socket.on('newProduct', (data) => {
-        productManager.addProduct(data)
+        const {title, description, price, thumbnail, code, stock} = data
+        productManager.addProduct(title, description, price, thumbnail, code, stock)
         history = productManager.getProducts()
-        socket.emit('products', history)
+        socket.emit('arrayProd', history)
+    })
+
+    socket.on('delProduct', (data) => {
+        const { id } = data
+        productManager.deleteProduct(id)
+        history = productManager.getProducts()
+        socket.emit('arrayProd', history)
     })
 })
 
